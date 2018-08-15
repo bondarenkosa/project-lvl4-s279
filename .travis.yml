@@ -1,5 +1,10 @@
+services:
+  - postgresql
 env:
   global:
+    - DB_CONNECTION=pgsql
+    - DB_DATABASE=travis_ci_test
+    - DB_USERNAME=postgres
     - CC_TEST_REPORTER_ID=c7add58a9c639735d645ba930cdaa38cbf6ef238aedd96e2d306a8ddb933058e
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 language: php
@@ -9,6 +14,7 @@ install:
   - composer self-update
   - make install
 before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
