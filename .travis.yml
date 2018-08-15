@@ -17,7 +17,8 @@ install:
   - composer self-update
   - make install
 before_script:
-  - php artisan key:generate
+  - composer run-script post-root-package-install
+  - composer run-script post-create-project-cmd
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
