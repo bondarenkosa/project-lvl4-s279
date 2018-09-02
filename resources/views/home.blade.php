@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    This is your Home Page!
                 </div>
             </div>
         </div>
