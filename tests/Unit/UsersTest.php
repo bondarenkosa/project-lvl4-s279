@@ -12,18 +12,21 @@ class UsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+    }
+
     public function testUserRegistration()
     {
-        $user =  [
-            'name' => 'Test Name',
-            'email' => 'test@mail4app.com',
-            'password' => 'passwordtest',
-            'password_confirmation' => 'passwordtest'
-        ];
-        $response = $this->post('/register', $user);
+        $response = $this->post(route('register'), $this->validParams());
 
-        $response->assertRedirect('/home');
-        $this->assertDatabaseHas('users', ['email' => $user['email']]);
+        $response->assertRedirect(route('home'));
+        $this->assertDatabaseHas('users', ['email' => $this->validParams()['email']]);
     }
 
     public function testUsersViewWithoutAuth()
@@ -35,22 +38,43 @@ class UsersTest extends TestCase
 
     public function testUsersViewWithAuth()
     {
-        $email = 'user@mail4app.com';
-        $user = factory(User::class)->create(compact('email'));
-
-        $response = $this->actingAs($user)->get('users');
+        $response = $this->actingAs($this->user)->get('users');
 
         $response->assertOk();
 
-        $response->assertSeeText($email);
+        $response->assertSeeText($this->user->email);
     }
 
     public function testUserAccountEdit()
     {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->get('account/edit');
+        $response = $this->actingAs($this->user)->get(route('account.edit'));
 
         $response->assertOk();
+    }
+
+    public function testResetPassword()
+    {
+        $response = $this->actingAs($this->user)->post(route('account.changepassword'));
+
+        $response->assertSessionHasNoErrors();
+    }
+
+    public function testUserAccountDelete()
+    {
+        $this->assertDatabaseHas('users', ['email' => $this->user->email]);
+
+        $response = $this->actingAs($this->user)->call('DELETE', route('account.delete'));
+
+        $this->assertDatabaseMissing('users', ['email' => $this->user->email]);
+    }
+
+    private function validParams($overrides = [])
+    {
+        return array_merge([
+            'name' => 'Ivan Petrov',
+            'email' => 'ivan@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ], $overrides);
     }
 }

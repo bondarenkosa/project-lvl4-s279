@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountRequest;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -14,87 +15,85 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the users.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::paginate(5);
+        $users = User::paginate(10);
 
         return view('users.index', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing account.
      *
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
-        //$user = User::findOrFail(auth()->id());
-
         $user = auth()->user();
 
         return view('users.edit', compact('user'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update user account.
      *
      * @param  \App\Http\Requests\AccountRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function update(AccountRequest $request)
     {
-        auth()->user()->update([
+        $updated = auth()->user()->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
         ]);
 
-        return redirect('home');
+        if ($updated) {
+            flash('Your account has been successfully updated')->success()->important();
+            return redirect('home');
+        } else {
+            flash('Something went wrong')->error()->important();
+            return back();
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove user.
      *
-     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy()
     {
-        //
+        $deleted = auth()->user()->delete();
+
+        if ($deleted) {
+            flash('Your account has been successfully deleted')->success()->important();
+        } else {
+            flash('Something went wrong')->error()->important();
+        }
+
+        return redirect('/');
+    }
+
+    /**
+     * Send password reset Email.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword()
+    {
+        $response = Password::sendResetLink(['email' => auth()->user()->email]);
+        $message = trans($response);
+
+        if ($response === Password::RESET_LINK_SENT) {
+            flash($message)->success();
+        } else {
+            flash($message)->error();
+        }
+
+        return redirect('home');
     }
 }

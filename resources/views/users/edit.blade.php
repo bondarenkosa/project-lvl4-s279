@@ -4,10 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Edit your account</div>
 
+            <div class="card mb-3">
                 <div class="card-body">
+                    <h5 class="card-title">Edit your account</h5>
+                    <hr>
                     <form method="POST" action="{{ route('account.update') }}" aria-label="{{ __('Update') }}">
                         @method('PATCH')
                         @csrf
@@ -50,7 +51,49 @@
                     </form>
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Change your password</h5>
+                    <hr>
+                    <form method="POST" action="{{ route('account.changepassword') }}" aria-label="{{ __('Change Password') }}">
+                        @csrf
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Send password reset Email') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Delete account</h5>
+                    <hr>
+                    <form method="POST" action="{{ route('account.delete') }}" aria-label="{{ __('Delete') }}" class="delete">
+                        @method('DELETE')
+                        @csrf
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                    {{ __('Delete My Account') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    $(".delete").on("submit", function(){
+        return confirm("Do you want to delete your account?");
+    });
+</script>
 @endsection
