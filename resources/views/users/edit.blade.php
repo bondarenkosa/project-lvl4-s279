@@ -60,7 +60,7 @@
                         @csrf
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-outline-primary">
                                     {{ __('Send password reset Email') }}
                                 </button>
                             </div>
@@ -78,7 +78,7 @@
                         @csrf
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure?')">
                                     {{ __('Delete My Account') }}
                                 </button>
                             </div>
