@@ -1,17 +1,11 @@
-services:
-  - postgresql
 env:
   global:
-    - DB_CONNECTION=pgsql
-    - DB_DATABASE=travis_ci_test
-    - DB_USERNAME=postgres
+    - DB_CONNECTION=sqlite
+    - DB_DATABASE=":memory:"
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 language: php
 php:
   - 7.1
-before_install:
-  - sh -c "if [ '$DB_CONNECTION' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS travis_ci_test;' -U postgres; fi"
-  - sh -c "if [ '$DB_CONNECTION' = 'pgsql' ]; then psql -c 'CREATE DATABASE travis_ci_test;' -U postgres; fi"
 install:
   - composer self-update
   - make install
