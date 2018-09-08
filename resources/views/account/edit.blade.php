@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Edit your account</h5>
                     <hr>
-                    <form method="POST" action="{{ route('account.update') }}" aria-label="{{ __('Update') }}">
+                    <form method="POST" action="{{ route('account') }}" aria-label="{{ __('Update') }}">
                         @method('PATCH')
                         @csrf
 
@@ -73,7 +73,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Delete account</h5>
                     <hr>
-                    <form method="POST" action="{{ route('account.delete') }}" aria-label="{{ __('Delete') }}" class="delete">
+                    <form method="POST" action="{{ route('account') }}" aria-label="{{ __('Delete') }}" class="delete">
                         @method('DELETE')
                         @csrf
                         <div class="form-group row mb-0">

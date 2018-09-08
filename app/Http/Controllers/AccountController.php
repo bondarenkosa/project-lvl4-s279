@@ -7,23 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AccountRequest;
 use Illuminate\Support\Facades\Password;
 
-class UserController extends Controller
+class AccountController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the users.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $users = User::paginate(10);
-
-        return view('users.index', compact('users'));
     }
 
     /**
@@ -35,7 +23,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        return view('users.edit', compact('user'));
+        return view('account.edit', compact('user'));
     }
 
     /**
@@ -88,11 +76,7 @@ class UserController extends Controller
         $response = Password::sendResetLink(['email' => auth()->user()->email]);
         $message = trans($response);
 
-        if ($response === Password::RESET_LINK_SENT) {
-            flash($message)->success();
-        } else {
-            flash($message)->error();
-        }
+        $response === Password::RESET_LINK_SENT ? flash($message)->success() : flash($message)->error();
 
         return redirect('home');
     }

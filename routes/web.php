@@ -11,18 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'PagesController@index')->name('index');
+Route::get('/home', 'PagesController@home')->name('home');
 
-Route::get('/account/edit', 'UserController@edit')->name('account.edit');
-Route::patch('/account/update', 'UserController@update')->name('account.update');
-Route::post('/account/changepassword', 'UserController@changePassword')->name('account.changepassword');
-Route::delete('/account/delete', 'UserController@destroy')->name('account.delete');
-Route::resource('users', 'UserController')->only([
-    'index',
-]);
+Route::get('users', 'ShowUsers')->name('users');
+
+Route::get('/account/edit', 'AccountController@edit')->name('account.edit');
+Route::patch('/account', 'AccountController@update')->name('account');
+Route::delete('/account', 'AccountController@destroy');
+Route::post('/account/changepassword', 'AccountController@changePassword')->name('account.changepassword');
