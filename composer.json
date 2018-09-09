@@ -53,10 +53,10 @@
             "@php artisan package:discover"
         ],
         "post-install-cmd": [
-            "php artisan migrate --force"
+            "php artisan migrate --force --seed"
         ],
         "post-update-cmd": [
-            "php artisan migrate --force"
+            "php artisan migrate --force --seed"
         ],
         "phpcs": "phpcs",
         "phpunit": "phpunit"
