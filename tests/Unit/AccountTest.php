@@ -13,19 +13,37 @@ class AccountTest extends TestCase
     use RefreshDatabase;
 
     protected $user;
+    protected $userData;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->userData = [
+            'name' => 'Ivan Petrov',
+            'email' => 'ivan@example.com',
+        ];
+
+        $this->user = factory(User::class)->create($this->userData);
     }
 
-    public function testAccountEdit()
+    public function testGetAccountEditPage()
     {
         $response = $this->actingAs($this->user)->get(route('account.edit'));
 
         $response->assertOk();
+    }
+
+    public function testAccountPatch()
+    {
+        $newData = [
+            'name' => 'Edited UserName',
+            'email' => $this->user->email,
+        ];
+
+        $response = $this->actingAs($this->user)->call('PATCH', route('account'), $newData);
+
+        $this->assertDatabaseHas('users', $newData);
     }
 
     public function testResetPassword()
@@ -37,10 +55,10 @@ class AccountTest extends TestCase
 
     public function testAccountDelete()
     {
-        $this->assertDatabaseHas('users', ['email' => $this->user->email]);
+        $this->assertDatabaseHas('users', $this->userData);
 
         $response = $this->actingAs($this->user)->call('DELETE', route('account'));
 
-        $this->assertDatabaseMissing('users', ['email' => $this->user->email]);
+        $this->assertDatabaseMissing('users', $this->userData);
     }
 }
