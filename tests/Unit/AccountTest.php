@@ -27,7 +27,7 @@ class AccountTest extends TestCase
         $this->user = factory(User::class)->create($this->userData);
     }
 
-    public function testGetAccountEditPage()
+    public function testGetAccountEditForm()
     {
         $response = $this->actingAs($this->user)->get(route('account.edit'));
 
