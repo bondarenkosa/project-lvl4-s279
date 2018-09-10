@@ -22,3 +22,5 @@ Route::get('/account/edit', 'AccountController@edit')->name('account.edit');
 Route::patch('/account', 'AccountController@update')->name('account');
 Route::delete('/account', 'AccountController@destroy');
 Route::post('/account/changepassword', 'AccountController@changePassword')->name('account.changepassword');
+
+Route::resource('taskstatuses', 'TaskStatusController');

@@ -33,14 +33,16 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @auth
                     <ul class="navbar-nav mr-auto">
-                        @auth
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users') }}">Users</a>
                         </li>
-                        @endauth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('taskstatuses.index') }}">Task statuses</a>
+                        </li>
                     </ul>
-
+                    @endauth
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -58,6 +60,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('Home') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('account.edit') }}">
                                         {{ __('Edit account') }}
                                     </a>
