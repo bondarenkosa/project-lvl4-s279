@@ -42,7 +42,7 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required']);
+        $this->validate($request, ['name' => 'required|unique:task_statuses']);
 
         TaskStatus::create($request->all());
 
@@ -82,7 +82,7 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $taskStatus)
     {
-        $this->validate($request, ['name' => 'required']);
+        $this->validate($request, ['name' => 'required|unique:task_statuses']);
 
         $taskStatus->update($request->all());
 
