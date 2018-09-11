@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\User;
+use App\TaskStatus;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 
@@ -32,7 +34,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        $statuses = TaskStatus::pluck('name', 'name');
+        $users = User::pluck('name', 'id');
+
+        return view('tasks.create', compact('statuses', 'users'));
     }
 
     /**
@@ -70,7 +75,10 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('tasks.edit', compact('task'));
+        $statuses = TaskStatus::pluck('name', 'name');
+        $users = User::pluck('name', 'id');
+
+        return view('tasks.edit', compact('task', 'statuses', 'users'));
     }
 
     /**
