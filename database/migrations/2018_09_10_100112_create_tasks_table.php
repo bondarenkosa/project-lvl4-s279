@@ -18,13 +18,13 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('status')->default('New');
-            $table->unsignedInteger('creator');
-            $table->unsignedInteger('assignedTo');
+            $table->unsignedInteger('creator_id');
+            $table->unsignedInteger('executor_id');
             $table->timestamps();
 
             $table->foreign('status')->references('name')->on('task_statuses');
-            $table->foreign('creator')->references('id')->on('users');
-            $table->foreign('assignedTo')->references('id')->on('users');
+            $table->foreign('creator_id')->references('id')->on('users');
+            $table->foreign('executor_id')->references('id')->on('users');
         });
     }
 
