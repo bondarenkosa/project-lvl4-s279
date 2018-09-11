@@ -26,10 +26,16 @@
                           <a class="dropdown-item" href="{{ route('taskstatuses.create') }}">Create new</a>
                         </div>
                       </div>
+                      <div class="btn-group" role="group">
+                        <button id="btnGroupDrop3" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Tasks
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
+                          <a class="dropdown-item" href="{{ route('tasks.index') }}">List</a>
+                          <a class="dropdown-item" href="{{ route('tasks.create') }}">Create new</a>
+                        </div>
+                      </div>
                     </div>
-
-
-
 
                 </div>
             </div>

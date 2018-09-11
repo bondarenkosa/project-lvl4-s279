@@ -41,6 +41,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('taskstatuses.index') }}">Task statuses</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tasks.index') }}">Tasks</a>
+                        </li>
                     </ul>
                     @endauth
                     <!-- Right Side Of Navbar -->
