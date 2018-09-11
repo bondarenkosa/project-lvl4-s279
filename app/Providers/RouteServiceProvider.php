@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use App\TaskStatus;
+use App\Task;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::model('taskstatus', TaskStatus::class);
+
+        Route::model('task', Task::class);
     }
 
     /**
