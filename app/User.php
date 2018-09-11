@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Task', 'creator_id');
     }
 
+    public function createTask(Task $task)
+    {
+        return $this->createdTasks()->save($task);
+    }
+
     /**
      * A user can have many tasks to perform
      *
