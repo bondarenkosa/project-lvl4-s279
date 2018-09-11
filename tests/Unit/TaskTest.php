@@ -15,6 +15,7 @@ class TaskTest extends TestCase
     protected $data;
     protected $task;
     protected $urlParams;
+    protected $user;
 
     public function setUp()
     {
@@ -27,7 +28,8 @@ class TaskTest extends TestCase
 
         $this->task = factory(Task::class)->create($this->data);
         $this->urlParams = ['task' => $this->task->id];
-        $this->actingAs(User::first());
+        $this->user = User::first();
+        $this->actingAs($this->user);
     }
 
     public function testGetTaskList()
@@ -46,7 +48,7 @@ class TaskTest extends TestCase
 
     public function testCreateNewTask()
     {
-        $taskData = factory(Task::class)->make()->toArray();
+        $taskData = factory(Task::class)->make(['creator_id' => $this->user->id])->toArray();
 
         $response = $this->post(route('tasks.store'), $taskData);
 
