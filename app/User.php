@@ -46,5 +46,4 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Task', 'executor_id');
     }
-
 }
