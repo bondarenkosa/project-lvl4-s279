@@ -25,4 +25,4 @@ Route::post('/account/changepassword', 'AccountController@changePassword')->name
 
 Route::resource('taskstatuses', 'TaskStatusController');
 
-Route::resource('task', 'TaskController');
+Route::resource('tasks', 'TaskController');
