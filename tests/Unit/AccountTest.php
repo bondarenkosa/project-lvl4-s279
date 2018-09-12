@@ -59,6 +59,6 @@ class AccountTest extends TestCase
 
         $response = $this->actingAs($this->user)->call('DELETE', route('account'));
 
-        $this->assertDatabaseMissing('users', $this->userData);
+        $this->assertSoftDeleted('users', $this->userData);
     }
 }

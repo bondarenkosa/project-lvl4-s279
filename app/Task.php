@@ -22,7 +22,7 @@ class Task extends Model
      */
     public function creator()
     {
-        return $this->belongsTo('App\User', 'creator_id');
+        return $this->belongsTo('App\User', 'creator_id')->withTrashed();
     }
 
     /**
@@ -32,7 +32,7 @@ class Task extends Model
      */
     public function assignedTo()
     {
-        return $this->belongsTo('App\User', 'executor_id');
+        return $this->belongsTo('App\User', 'executor_id')->withTrashed();
     }
 
     /**
