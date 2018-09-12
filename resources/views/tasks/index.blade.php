@@ -6,6 +6,7 @@
     <p class="my-3">
         <a href="{{ route('tasks.create') }}" class="btn btn-primary">Add new Task</a>
     </p>
+    @include('tasks._filterform')
     @if (count($tasks))
         <div class="card-columns">
             @each('tasks._card', $tasks, 'task')

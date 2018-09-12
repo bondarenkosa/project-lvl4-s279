@@ -19,13 +19,44 @@ class TaskController extends Controller
     /**
      * Display a listing of the tasks.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
+        $executor_id = $request->input('executor_id');
+        $status = $request->input('status');
+        $tagList = $request->input('tag_list');
+        $isMyTasks = $request->input('my_tasks');
 
-        return view('tasks.index', compact('tasks'));
+        $query = Task::query();
+
+        $query->when($executor_id, function ($query, $executor_id) {
+            return $query->where('executor_id', $executor_id);
+        });
+
+        $query->when($status, function ($query, $status) {
+            return $query->where('status', $status);
+        });
+
+        $query->when($isMyTasks, function ($query) {
+            return $query->where('creator_id', auth()->user()->id);
+        });
+
+        $query->when($tagList, function ($query, $tagList) {
+            return $query->whereHas('tags', function ($query) use ($tagList) {
+                $query->whereIn('id', $tagList);
+            });
+        });
+
+        $tasks = $query->get();
+        $statuses = TaskStatus::pluck('name', 'name');
+        $users = User::pluck('name', 'id');
+        $tags = Tag::pluck('name', 'id');
+
+        $data = compact('tasks', 'statuses', 'users', 'tags', 'executor_id', 'status', 'tagList', 'isMyTasks');
+
+        return view('tasks.index', $data);
     }
 
     /**
