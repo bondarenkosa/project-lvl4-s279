@@ -34,4 +34,14 @@ class Task extends Model
     {
         return $this->belongsTo('App\User', 'executor_id');
     }
+
+    /**
+     * Get the tags associated with the given task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 }

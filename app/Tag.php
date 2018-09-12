@@ -12,4 +12,14 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * Get the tasks associated with the given tag.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task');
+    }
 }
