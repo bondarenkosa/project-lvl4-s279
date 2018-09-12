@@ -64,9 +64,10 @@ class TaskTest extends TestCase
 
     public function testTaskPatch()
     {
+        $newName = 'Edited Task';
         $newData = array_merge(
             $this->task->toArray(),
-            ['name' => 'Edited Task']
+            ['name' => $newName]
         );
 
         $response = $this->call(
@@ -75,7 +76,7 @@ class TaskTest extends TestCase
             $newData
         );
 
-        $this->assertDatabaseHas('tasks', $newData);
+        $this->assertDatabaseHas('tasks', ['name' => $newName]);
     }
 
     public function testGetTaskView()
