@@ -50,7 +50,7 @@ class User extends Authenticatable
     public function createTask(TaskRequest $request)
     {
         $task = $this->createdTasks()->create($request->all());
-        $task->syncTags($request->input('tagList'));
+        $task->syncTags($request->input('tag_list'));
 
         return $task;
     }

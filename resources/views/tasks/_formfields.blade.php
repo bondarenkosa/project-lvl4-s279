@@ -42,9 +42,9 @@
 </div>
 
 <div class="form-group row">
-    {!! Form::label('tagList', 'Tags', ['class' => 'col-md-4 col-form-label text-md-right']) !!}
+    {!! Form::label('tag_list', 'Tags', ['class' => 'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-6">
-        {!! Form::select('tagList[]', $tags, null, ['id' => 'tagList', 'class' => 'form-control', 'multiple']) !!}
+        {!! Form::select('tag_list[]', $tags, null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) !!}
     </div>
 </div>
 
@@ -58,7 +58,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('#tagList').select2({
+            $('#tag_list').select2({
                 placeholder: 'Choose a tag',
                 tags: true,
             });
