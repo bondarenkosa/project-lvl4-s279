@@ -32,7 +32,7 @@
 <div class="form-group row">
     {!! Form::label('executor_id', 'Executor', ['class' => 'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-6">
-        {!! Form::select('executor_id', $users, null, ['class' => 'form-control']) !!}
+        {!! Form::select('executor_id', $users, null, ['class' => 'form-control', 'placeholder' => 'Choose executor...', 'required']) !!}
         @if ($errors->has('executor_id'))
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $errors->first('executor_id') }}</strong>
