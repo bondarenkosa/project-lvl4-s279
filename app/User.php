@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Http\Requests\TaskRequest;
 
 class User extends Authenticatable
 {
@@ -37,9 +38,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Task', 'creator_id');
     }
 
-    public function createTask(Task $task)
+    public function createTask(TaskRequest $request)
     {
-        return $this->createdTasks()->save($task);
+        $task = $this->createdTasks()->create($request->all());
+        $task->syncTags($request->input('tagList'));
+
+        return $task;
     }
 
     /**

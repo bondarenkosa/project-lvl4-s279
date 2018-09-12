@@ -44,4 +44,24 @@ class Task extends Model
     {
         return $this->belongsToMany('App\Tag');
     }
+
+    /**
+     * Get a list of tag ids associated with the current task.
+     *
+     * @return array
+     */
+    public function getTagListAttribute()
+    {
+        return $this->tags->pluck('name');
+    }
+
+    public function syncTags(array $tagNames)
+    {
+        $tagIds = array_map(function ($value) {
+            $tag = Tag::firstOrCreate(['name' => $value]);
+            return $tag->id;
+        }, $tagNames);
+
+        return $this->tags()->sync($tagIds);
+    }
 }
