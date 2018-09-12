@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Task;
 use App\User;
 use App\TaskStatus;
@@ -36,8 +37,9 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::pluck('name', 'name');
         $users = User::pluck('name', 'id');
+        $tags = Tag::pluck('name', 'name');
 
-        return view('tasks.create', compact('statuses', 'users'));
+        return view('tasks.create', compact('statuses', 'users', 'tags'));
     }
 
     /**
@@ -48,8 +50,7 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        $task = new Task($request->all());
-        auth()->user()->createTask($task);
+        auth()->user()->createTask($request);
 
         flash('New task has been successfully created')->success();
 
@@ -77,8 +78,9 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::pluck('name', 'name');
         $users = User::pluck('name', 'id');
+        $tags = Tag::pluck('name', 'name');
 
-        return view('tasks.edit', compact('task', 'statuses', 'users'));
+        return view('tasks.edit', compact('task', 'statuses', 'users', 'tags'));
     }
 
     /**
@@ -91,6 +93,8 @@ class TaskController extends Controller
     public function update(TaskRequest $request, Task $task)
     {
         $task->update($request->all());
+
+        $task->syncTags($request->input('tagList'));
 
         flash('The task has been successfully updated')->success();
 
