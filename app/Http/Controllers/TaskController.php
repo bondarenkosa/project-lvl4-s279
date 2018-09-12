@@ -125,7 +125,7 @@ class TaskController extends Controller
     {
         $task->update($request->all());
 
-        $task->syncTags($request->input('tag_list'));
+        $task->syncTags($request->input('tag_list', []));
 
         flash('The task has been successfully updated')->success();
 
