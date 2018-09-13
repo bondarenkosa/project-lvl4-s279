@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Task', 'executor_id');
     }
+
+    public function scopeHasTasks($query)
+    {
+        return $query->withTrashed()->has('assignedTasks');
+    }
 }

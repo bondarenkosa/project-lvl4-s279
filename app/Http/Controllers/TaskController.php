@@ -28,10 +28,10 @@ class TaskController extends Controller
         $filter = $request->input('filter');
         $tasks = Task::filtered($filter)->get();
         $statuses = TaskStatus::pluck('name', 'name');
-        $users = User::withTrashed()->pluck('name', 'id');
+        $executors = User::hasTasks()->pluck('name', 'id');
         $tags = Tag::pluck('name', 'id');
 
-        return view('tasks.index', compact('tasks', 'statuses', 'users', 'tags', 'filter'));
+        return view('tasks.index', compact('tasks', 'statuses', 'executors', 'tags', 'filter'));
     }
 
     /**

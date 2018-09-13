@@ -18,7 +18,7 @@
 
                 <div class="col-md-4 mb-3">
                   {!! Form::label('filter[executor_id]', 'Executor') !!}
-                  {!! Form::select('filter[executor_id]', $users, $filter['executor_id'], ['class' => 'form-control', 'placeholder' => 'Choose a executor...']) !!}
+                  {!! Form::select('filter[executor_id]', $executors, $filter['executor_id'], ['class' => 'form-control', 'placeholder' => 'Choose a executor...']) !!}
                 </div>
 
               </div>
