@@ -64,4 +64,27 @@ class Task extends Model
 
         return $this->tags()->sync($tagIds);
     }
+
+    public function scopeFiltered($query, $filter)
+    {
+        $query->when(isset($filter['executor_id']), function ($query) use ($filter) {
+            return $query->where('executor_id', $filter['executor_id']);
+        });
+
+        $query->when(isset($filter['status']), function ($query) use ($filter) {
+            return $query->where('status', $filter['status']);
+        });
+
+        $query->when(isset($filter['only_my']), function ($query) {
+            return $query->where('creator_id', auth()->user()->id);
+        });
+
+        $query->when(isset($filter['tag_list']), function ($query) use ($filter) {
+            return $query->whereHas('tags', function ($query) use ($filter) {
+                $query->whereIn('id', $filter['tag_list']);
+            });
+        });
+
+        return $query;
+    }
 }

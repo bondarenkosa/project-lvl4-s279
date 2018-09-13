@@ -7,26 +7,26 @@
               <div class="form-row">
 
                 <div class="col-md-4 mb-3">
-                    {!! Form::label('tag_list', 'Tags') !!}
-                    {!! Form::select('tag_list[]', $tags, $tagList, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) !!}
+                    {!! Form::label('filter[tag_list]', 'Tags') !!}
+                    {!! Form::select('filter[tag_list][]', $tags, isset($filter['tag_list']) ? $filter['tag_list'] : null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) !!}
                 </div>
 
                 <div class="col-md-4 mb-3">
-                  {!! Form::label('status', 'Status') !!}
-                  {!! Form::select('status', $statuses, $status, ['class' => 'form-control', 'placeholder' => 'Choose a status...']) !!}
+                  {!! Form::label('filter[status]', 'Status') !!}
+                  {!! Form::select('filter[status]', $statuses, $filter['status'], ['class' => 'form-control', 'placeholder' => 'Choose a status...']) !!}
                 </div>
 
                 <div class="col-md-4 mb-3">
-                  {!! Form::label('executor_id', 'Executor') !!}
-                  {!! Form::select('executor_id', $users, $executor_id, ['class' => 'form-control', 'placeholder' => 'Choose a executor...']) !!}
+                  {!! Form::label('filter[executor_id]', 'Executor') !!}
+                  {!! Form::select('filter[executor_id]', $users, $filter['executor_id'], ['class' => 'form-control', 'placeholder' => 'Choose a executor...']) !!}
                 </div>
 
               </div>
 
               <div class="form-row">
                   <div class="col-md-4 mb-3">
-                      {!! Form::label('my_tasks', 'Tasks created by me') !!}
-                      {!! Form::checkbox('my_tasks', 'true', $isMyTasks) !!}
+                      {!! Form::label('filter[only_my]', 'Tasks created by me') !!}
+                      {!! Form::checkbox('filter[only_my]', 'true', isset($filter['only_my']) ? true : false) !!}
                   </div>
               </div>
 
