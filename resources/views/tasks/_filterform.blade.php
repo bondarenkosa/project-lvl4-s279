@@ -26,7 +26,7 @@
               <div class="form-row">
                   <div class="col-md-4 mb-3">
                       {!! Form::label('filter[only_my]', 'Tasks created by me') !!}
-                      {!! Form::checkbox('filter[only_my]', '1', isset($filter['only_my']) ? true : false) !!}
+                      {!! Form::checkbox('filter[only_my]', '1', isset($filter['only_my'])) !!}
                   </div>
               </div>
 
