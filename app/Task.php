@@ -67,24 +67,44 @@ class Task extends Model
 
     public function scopeFiltered($query, $filter)
     {
-        $query->when(isset($filter['executor_id']), function ($query) use ($filter) {
-            return $query->where('executor_id', $filter['executor_id']);
-        });
+        if (isset($filter['executor_id'])) {
+            $query->withExecutor($filter['executor_id']);
+        }
 
-        $query->when(isset($filter['status']), function ($query) use ($filter) {
-            return $query->where('status', $filter['status']);
-        });
+        if (isset($filter['status'])) {
+            $query->withStatus($filter['status']);
+        }
 
-        $query->when(isset($filter['only_my']), function ($query) {
-            return $query->where('creator_id', auth()->user()->id);
-        });
+        if (isset($filter['tag_list'])) {
+            $query->withTags($filter['tag_list']);
+        }
 
-        $query->when(isset($filter['tag_list']), function ($query) use ($filter) {
-            return $query->whereHas('tags', function ($query) use ($filter) {
-                $query->whereIn('id', $filter['tag_list']);
-            });
-        });
+        if (isset($filter['only_my'])) {
+            $query->onlyMy();
+        }
 
         return $query;
+    }
+
+    public function scopeOnlyMy($query)
+    {
+        return $query->where('creator_id', auth()->user()->id);
+    }
+
+    public function scopeWithStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeWithExecutor($query, $executor_id)
+    {
+        return $query->where('executor_id', $executor_id);
+    }
+
+    public function scopeWithTags($query, $tags)
+    {
+        return $query->whereHas('tags', function ($query) use ($tags) {
+            $query->whereIn('id', $tags);
+        });
     }
 }
