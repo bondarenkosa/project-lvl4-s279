@@ -59,7 +59,8 @@
     <script>
         $(document).ready(function() {
             $('#tag_list').select2({
-                placeholder: 'Choose a tag',
+                tokenSeparators: [",", " "],
+                placeholder: 'Choose a tag...',
                 tags: true,
             });
         });
