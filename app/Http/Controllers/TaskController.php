@@ -8,6 +8,7 @@ use App\User;
 use App\TaskStatus;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskFilterRequest;
 
 class TaskController extends Controller
 {
@@ -19,15 +20,15 @@ class TaskController extends Controller
     /**
      * Display a listing of the tasks.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaskFilterRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(TaskFilterRequest $request)
     {
         $filter = $request->input('filter');
         $tasks = Task::filtered($filter)->get();
         $statuses = TaskStatus::pluck('name', 'name');
-        $users = User::pluck('name', 'id');
+        $users = User::withTrashed()->pluck('name', 'id');
         $tags = Tag::pluck('name', 'id');
 
         return view('tasks.index', compact('tasks', 'statuses', 'users', 'tags', 'filter'));
